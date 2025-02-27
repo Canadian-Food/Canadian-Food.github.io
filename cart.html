@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canadian Food</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            text-align: center;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+        }
+        nav {
+            margin: 10px 0;
+        }
+        main {
+            padding: 20px;
+        }
+        .section {
+            margin: 20px auto;
+            max-width: 800px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+        .item {
+            margin: 10px 0;
+        }
+        button {
+            margin: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Canadian Food</h1>
+    </header>
+    <nav>
+        <a href="menu.html">Back to Menu</a>
+    </nav>
+    <main>
+        <section class="section" id="cartItems"></section>
+        <h2 id="totalPrice">Total: $0.00</h2>
+        <button onclick="checkout()">Checkout</button>
+    </main>
+    <footer>
+        <p>&copy; Canadian Food. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function displayCartItems() {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const cartItemsSection = document.getElementById("cartItems");
+            let total = 0;
+
+            cartItemsSection.innerHTML = ""; // Clear previous items
+
+            if (cart.length === 0) {
+                cartItemsSection.innerHTML = "<p>Your cart is empty.</p>";
+            } else {
+                cartItemsSection.innerHTML = "<h2>Items in your cart:</h2>";
+                cart.forEach((item, index) => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    cartItemsSection.innerHTML += `
+                        <div class="item">
+                            <p>${item.name} - $${item.price.toFixed(2)} (Quantity: ${item.quantity})</p>
+                            <button onclick="addToCart(${index})">Add More</button>
+                            <button onclick="removeFromCart(${index})">Remove</button>
+                        </div>
+                    `;
+                });
+            }
+
+            document.getElementById("totalPrice").innerText = `Total: $${total.toFixed(2)}`;
+        }
+
+        function checkout() {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            if (cart.length === 0) {
+                alert("Your cart is empty. Please add items to the cart before checking out.");
+            } else {
+                alert("Proceeding to checkout...");
+                // Add your checkout logic here
+            }
+        }
+
+        function addToCart(index) {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart[index].quantity += 1; // Increase quantity
+            localStorage.setItem("cart", JSON.stringify(cart));
+            displayCartItems();
+        }
+
+        function removeFromCart(index) {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.splice(index, 1); // Remove item
+            localStorage.setItem("cart", JSON.stringify(cart));
+            displayCartItems();
+        }
+
+        // Display cart items on page load
+        window.onload = displayCartItems;
+    </script>
+</body>
+</html>
+
+
