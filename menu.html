@@ -64,6 +64,13 @@
         <a href="cart.html">Cart</a>
     </nav>
     <main>
+        <aside class="sidebar">
+            <h2>Drinks</h2>
+            <p>Sussex Golden Ginger Ale - $5.99 <button onclick="addToCart('Sussex Golden Ginger Ale', 5.99)">Add to Cart</button></p>
+            <p>maple syrup - $4.49 <button onclick="addToCart('maple syrup', 4.49)">Add to Cart</button></p>
+            <p>Screech - $2.99 <button onclick="addToCart('Soda', 2.99)">Add to Cart</button></p>
+            <p>Water - $1.39 <button onclick="addToCart('Water', 1.39)">Add to Cart</button></p>
+        </aside>
         <div class="section" id="appetizers">
             <h2>Appetizers</h2>
             <p><a href="Fish and brewis.html">Fish and Brewis - $8.99</a></p>
@@ -82,8 +89,19 @@
             <p><a href="Fried dough.html">Fried Dough - $9.99</a></p>
         </div>
     </main>
+    <script>
+        function addToCart(name, price) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.push({ name, price, quantity: 1 });
+            localStorage.setItem("cart", JSON.stringify(cart));
+            alert(name + " added to cart!");
+        }
+    </script>
     <footer>
         <p>&copy; Canadian Food. All rights reserved.</p>
     </footer>
 </body>
 </html>
+
+
+
